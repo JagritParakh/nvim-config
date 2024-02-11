@@ -1,18 +1,18 @@
+local json = require("cjson")
 return {
   -- customize alpha options
   {
     "goolord/alpha-nvim",
     opts = function(_, opts)
       -- customize the dashboard header
+      local url = "curl -s -X GET -H " ..  "Content-Type: application/json" .. " https://zenquotes.io/api/random" 
+      local handle = io.popen(url)
+      local result = handle:read("*a")
+      handle:close()
+      result = json.decode(result)
       opts.section.header.val = {
-" ██████╗ ██████╗ ███████╗███╗   ██╗    ███████╗██████╗  ██████╗ ████████╗██╗███████╗██╗   ██╗",
-"██╔═══██╗██╔══██╗██╔════╝████╗  ██║    ██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝",
-"██║   ██║██████╔╝█████╗  ██╔██╗ ██║    ███████╗██████╔╝██║   ██║   ██║   ██║█████╗   ╚████╔╝ ",
-"██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║    ╚════██║██╔═══╝ ██║   ██║   ██║   ██║██╔══╝    ╚██╔╝  ",
-"╚██████╔╝██║     ███████╗██║ ╚████║    ███████║██║     ╚██████╔╝   ██║   ██║██║        ██║   ",
-" ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝    ╚══════╝╚═╝      ╚═════╝    ╚═╝   ╚═╝╚═╝        ╚═╝  ", 
-
-      }
+          result[1].q .. " - " .. result[1].a
+        }
       return opts
     end,
   },
